@@ -27,10 +27,11 @@ def products():
 
 @app.route('/api/v1/products/<int:id>', methods=["GET"])
 def get_product(id):
-
-    product = db.query(Product).get(id)
+    print (id)
+    product = db.session.query(Product).get(id)
+    print(product)
     if product != None:
-        return jsonify(product)
+        return product
     return '', 404
 
 @app.route('/api/v1/products/<int:id>', methods=["DELETE"])
