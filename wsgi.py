@@ -1,7 +1,7 @@
 # wsgi.py
 import os
 import logging
-logging.warn(os.environ["DUMMY"])
+#logging.warn(os.environ["DUMMY"])
 
 from flask import Flask
 from config import Config
