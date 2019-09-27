@@ -4,6 +4,8 @@ import logging
 #logging.warn(os.environ["DUMMY"])
 
 from flask import Flask, render_template
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 
 #from flask import Flask, jsonify, request
 from config import Config
@@ -17,6 +19,9 @@ ma = Marshmallow(app)
 
 from models import Product
 from schemas import products_schema, product_schema
+
+admin = Admin(app, template_mode='bootstrap3')
+admin.add_view(ModelView(Product, db.session))
 
 @app.route('/')
 def home():
