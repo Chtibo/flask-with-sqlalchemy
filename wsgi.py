@@ -3,7 +3,9 @@ import os
 import logging
 #logging.warn(os.environ["DUMMY"])
 
-from flask import Flask, jsonify, request
+from flask import Flask, render_template
+
+#from flask import Flask, jsonify, request
 from config import Config
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -16,10 +18,11 @@ ma = Marshmallow(app)
 from models import Product
 from schemas import products_schema, product_schema
 
-@app.route('/hello')
-def hello():
-    print("Hello", flush=True)
-    return "Hello World!"
+@app.route('/')
+def home():
+    products = db.session.query(Product).all()
+
+    return render_template('home.html', products=products)
 
 @app.route('/api/v1/products')
 def products():
@@ -27,9 +30,10 @@ def products():
     print (products, flush=True)
     return products_schema.jsonify(products)
 
-@app.route('/api/v1/products/<int:id>', methods=["GET"])
-def get_product(id):
+@app.route('/<int:id>')
+def product_html(id):
     product = db.session.query(Product).get(id)
+    return render_template('product.html', product=product)
     print (id, flush=True)
     print (product, flush=True)
     if product != None:
